@@ -3,7 +3,7 @@ name: Send SPX Daily Message
 on:
   schedule:
     - cron: '50 19 * * 1-5'  # الساعة 10:50 مساءً بتوقيت السعودية (UTC+3)
-  workflow_dispatch:  # لتشغيله يدوياً
+  workflow_dispatch:  # لتشغيله يدويًا وقت ما تبغى
 
 jobs:
   send-message:
