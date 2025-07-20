@@ -1,22 +1,28 @@
-
+import os
 import requests
 
-# توكن البوت
-TOKEN = '7827995600:AAHkjQIAGETzKYdMMfPYZe-sUaFX8nyj3x0'
+# قراءة التوكن ومعرف الشات من متغيرات البيئة (GitHub Secrets)
+TOKEN = os.getenv('TOKEN')
+CHAT_ID = os.getenv('CHAT_ID')
 
-# معرف التليجرام الخاص بك
-CHAT_ID = '140955030'
+# تحقق من وجود القيم
+if not TOKEN or not CHAT_ID:
+    raise ValueError("❌ لم يتم العثور على TOKEN أو CHAT_ID في البيئة!")
 
-# الرسالة اللي تبي ترسلها
-message = "📊 تمركز عقود SPX لليوم:\n\n✅ صافي التمركز (Call - Put): -27597\n📉 التوجه العام: هبوطي (Put أكبر من Call)"
+# نص الرسالة
+message = """📊 تمركز عقود SPX لليوم:
 
-# رابط API
-url = f'https://api.telegram.org/bot{TOKEN}/sendMessage'
+✅ صافي التمركز (Call - Put): -27597
+📉 التوجه العام: هبوطي (Put أكبر من Call)
+"""
 
-# الطلب
+# إعداد رابط الطلب
+url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+
+# إرسال الطلب إلى تليجرام
 response = requests.post(url, data={'chat_id': CHAT_ID, 'text': message})
 
-# تأكيد الإرسال
+# التحقق من نجاح الإرسال
 if response.status_code == 200:
     print("✅ تم إرسال الرسالة بنجاح إلى تليجرام.")
 else:
